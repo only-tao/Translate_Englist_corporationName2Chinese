@@ -1,6 +1,3 @@
-# 所有的信息整合到了一个网址里，那么只需要对一个网站进行分析？！
-
-from encodings import search_function
 import re
 import requests
 from bs4 import BeautifulSoup
@@ -23,11 +20,14 @@ def lline():
     print("****************************************")
 def main():
     # keyWord = "Oceana Group Ltd 中文名"
-    factoryname = "Ford Otomotiv Sanayi AS"
-    keyWord = factoryname+" 公司中文名"
+    factoryname = "Posco"
+    keyWord = factoryname+" 中文名"
     # url = "https://www.baidu.com/s?wd="+keyWord  TODO 百度
-    url = "https://cn.bing.com/search?q="+keyWord+"&PC=U316&FORM=CHROMN"
-     
+
+    # url = "https://cn.bing.com/search?q="+keyWord+"&PC=U316&FORM=CHROMN"
+    # use baidu search
+    url = "https://www.baidu.com/s?wd="+keyWord
+
     # stockInfoUrl = 'http://fund.stockstar.com/funds/'
     # output_file = 'D:/BaiduStockInfo.csv'
     all_info = []
@@ -36,21 +36,20 @@ def main():
     # get the content id ="b_results" in html 
     soup = BeautifulSoup(html,'html.parser')
     # print(soup.prettify())
-    search_ans_bing = soup.find_all('ol',id='b_results')
+    # use the id to get the content id="content_left"
+    search_ans_bing = soup.find_all('div',id='content_left')
     # turn search_ans_bing into a string
     search_ans_bing = str(search_ans_bing)
     lline()
     print("search_ans_bing=>",search_ans_bing)
-    # print(soup.find_all('ol',id='b_results'))
     # 找到公司,集团等名称的字段 使用正则表达式
-    pattern = re.compile(r'.{1,4}[公司|集团|会社|有限|商].{1,4}')
-    # str = "谁的>>>>sfee公司t><<<<<<<<est   海思集团，集团名字是什么??"
+    pattern = re.compile(r'.{1,4}[公司|集团|会社|有限].{1,4}')
     model_s = search_ans_bing
     l_ans = pattern.findall(model_s)
     print("re result => ",l_ans) # or findall??
     # check  item in list chooselist whether in l_ans
     lst = []
-    chooselist = ["公司","集团","会社","有限","商"]
+    chooselist = ["公司","集团","会社","有限"]
     for i in l_ans:
         for item in chooselist:
             if item in i:
@@ -58,7 +57,7 @@ def main():
                 break
     lline()
     print("lst => ",lst)
-    # 存储文件
+    # # 存储文件
     filename = keyWord+'.html'
     with open(filename, 'w', encoding='utf-8') as tem:
         tem.write(html)
