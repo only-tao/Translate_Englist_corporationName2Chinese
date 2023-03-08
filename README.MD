@@ -1,3 +1,13 @@
+### 2022.3.8
+
+使用chatgpt可以实现不错的翻译
+
+![image](https://user-images.githubusercontent.com/54075362/223711695-ea2bbf2e-d1e5-4ae4-ace4-4f4075831076.png)
+
+
+
+### 原需求
+
 一个奇怪的需求，将英文公司名翻译成中文名
 
 比如: 
